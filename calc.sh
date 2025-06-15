@@ -12,7 +12,7 @@ while getopts "o:n:l:" opt; do
         o) operation=$OPTARG ;;
         n) numbers=$OPTARG ;;
         l) log_file=$OPTARG ;;
-        *) log_error "Неверный аргумент" ;;
+        *) log_error "Неверный аргумент, используйте [-o|-n|-l]" ;;
     esac
 done
 
