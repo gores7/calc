@@ -3,6 +3,7 @@
 log_error() {
     echo "$(date): $1" >> "$log_file"
     echo "$1" >&2
+    echo "Использование: $0 -o <операция> -n \"<числа>\" -l <файл_логов>"
     exit 1
 }
 
@@ -11,8 +12,7 @@ while getopts "o:n:l:" opt; do
         o) operation=$OPTARG ;;
         n) numbers=$OPTARG ;;
         l) log_file=$OPTARG ;;
-        *) echo "Использование: $0 -o <операция> -n \"<числа>\" -l <файл_логов>"
-           log_error "Неверный аргумент" ;;
+        *) log_error "Неверный аргумент" ;;
     esac
 done
 
@@ -22,8 +22,7 @@ done
 
 case $operation in
     sum|sub|mul|div|pow) ;;
-    *) echo "Ошибка: неверная операция '$operation'. Допустимые: sum, sub, mul, div, pow"
-       log_error "Неверная операция: $operation" ;;
+    *) log_error "Ошибка: неверная операция '$operation'. Допустимые: sum, sub, mul, div, pow" ;;
 esac
 
 read -r -a num_array <<< "$numbers"
@@ -59,7 +58,7 @@ calculate() {
         div)
             result=${numbers[0]}
             for ((i=1; i<${#numbers[@]}; i++)); do
-                [ "${numbers[i]}" -eq 0 ] && log_error "Деление на ноль"
+                [ "${numbers[i]}" -eq 0 ] && log_error "Деление на ноль невозможно"
                 result=$((result / numbers[i]))
             done
             ;;
@@ -75,4 +74,4 @@ for num in "${num_array[@]}"; do
     fi
 done
 
-calculate "$operation" "${num_array[@]}"
+calculate "$operation" "${num_array[@]}"               
