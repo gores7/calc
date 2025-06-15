@@ -64,7 +64,7 @@ calculate() {
 }
 
 for num in ${num_array[@]}; do
-    if ! [[ "$num" =~ ^-?[0-9]+$ ]]; then
+    if ! [[ $num =~ ^-?[0-9]+$ ]]; then
         log_error "Некорректное число: $num"
     fi
 done
