@@ -25,7 +25,7 @@ case $operation in
     *) log_error "Ошибка: неверная операция '$operation'. Допустимые: sum, sub, mul, div, pow" ;;
 esac
 
-read -r -a num_array <<< "$numbers"
+read -ra num_array <<< "$numbers"
 
 if [ "$operation" = "pow" ]; then
     [ ${#num_array[@]} -ne 2 ] && log_error "Для pow требуется ровно два числа"
