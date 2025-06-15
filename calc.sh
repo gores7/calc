@@ -16,18 +16,18 @@ while getopts "o:n:l:" opt; do
     esac
 done
 
-[ -z "$operation" ] && log_error "Не указана операция"
-[ -z "$numbers" ] && log_error "Не указаны числа"
-[ -z "$log_file" ] && log_error "Не указан файл логов"
+[ -z $operation ] && log_error "Не указана операция"
+[ -z $numbers ] && log_error "Не указаны числа"
+[ -z $log_file ] && log_error "Не указан файл логов"
 
 case $operation in
     sum|sub|mul|div|pow) ;;
     *) log_error "Ошибка: неверная операция '$operation'. Допустимые: sum, sub, mul, div, pow" ;;
 esac
 
-read -ra num_array <<< "$numbers"
+read -ra num_array <<< $numbers
 
-if [ "$operation" = "pow" ]; then
+if [ $operation -eq "pow" ]; then
     [ ${#num_array[@]} -ne 2 ] && log_error "Для pow требуется ровно два числа"
 else
     [ ${#num_array[@]} -lt 2 ] && log_error "Для $operation требуется минимум два числа"
@@ -63,10 +63,10 @@ calculate() {
     echo "Результат: $result"
 }
 
-for num in "${num_array[@]}"; do
+for num in ${num_array[@]}; do
     if ! [[ "$num" =~ ^-?[0-9]+$ ]]; then
         log_error "Некорректное число: $num"
     fi
 done
 
-calculate "$operation" "${num_array[@]}"               
+calculate $operation ${num_array[@]}               
