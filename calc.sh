@@ -36,32 +36,27 @@ fi
 calculate() {
     local op=$1
     shift
-    local numbers=("$@")
-    local result
+    local numbers=($@)
+    local result=${numbers[0]}
 
     case $op in
         sum)
-            result=0
-            for num in "${numbers[@]}"; do
+            for num in ${numbers[@]:1}; do
                 result=$((result + num))
             done ;;
         sub)
-            result=${numbers[0]}
-            for ((i=1; i<${#numbers[@]}; i++)); do
-                result=$((result - numbers[i]))
+            for num in ${numbers[@]:1}; do
+                result=$((result - num))
             done ;;
         mul)
-            result=1
-            for num in "${numbers[@]}"; do
+            for num in ${numbers[@]:1}; do
                 result=$((result * num))
             done ;;
         div)
-            result=${numbers[0]}
-            for ((i=1; i<${#numbers[@]}; i++)); do
-                [ "${numbers[i]}" -eq 0 ] && log_error "Деление на ноль невозможно"
-                result=$((result / numbers[i]))
-            done
-            ;;
+            for num in ${numbers[@]:1}; do
+                [[ $num -eq 0 ]] && log_error "Деление на ноль невозможно"
+                result=$((result / num))
+            done ;;
         pow)
             result=$((numbers[0] ** numbers[1])) ;;
     esac
